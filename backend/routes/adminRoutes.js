@@ -80,4 +80,33 @@ router.post("/login", async (req, res) => {
   }
 });
 
+/**
+ * PASSWORD RESET REQUEST
+ * POST /api/admin/forgot-password
+ */
+router.post("/forgot-password", async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+
+    const admin = await Admin.findOne({ email });
+
+    if (admin) {
+      // Recovery email would normally be sent here.
+    }
+
+    res.status(200).json({
+      message: "If that email is registered, recovery instructions will be sent shortly.",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error processing password recovery request",
+      error: error.message,
+    });
+  }
+});
+
 module.exports = router;

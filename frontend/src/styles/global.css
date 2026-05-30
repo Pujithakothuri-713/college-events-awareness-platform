@@ -38,8 +38,8 @@ body {
 
 .filter-row {
   display: flex;
+  flex-direction: column;
   gap: 15px;
-  flex-wrap: wrap;
 }
 
 .form-group {

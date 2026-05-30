@@ -15,9 +15,9 @@ function EventList() {
     try {
       const response = await axios.get("http://localhost:5000/api/events", {
         params: {
-          city: city || undefined,
-          date: date || undefined,
-          domain: domain || undefined,
+          ...(city && { city }),
+          ...(date && { date }),
+          ...(domain && { domain }),
         },
       });
 
