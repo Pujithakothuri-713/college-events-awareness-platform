@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import API_URL from "../config";
 
 function AdminLogin() {
   const [email, setEmail] = useState("");
@@ -24,7 +25,7 @@ function AdminLogin() {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/admin/login",
+        `${API_URL}/api/admin/login`,
         { email, password }
       );
 
@@ -45,7 +46,7 @@ function AdminLogin() {
     setRecoveryMessage("");
 
     try {
-      await axios.post("http://localhost:5000/api/admin/forgot-password", {
+      await axios.post(`${API_URL}/api/admin/forgot-password`, {
         email,
       });
 
@@ -78,7 +79,7 @@ function AdminLogin() {
     setIsCreatingAdmin(true);
 
     try {
-      await axios.post("http://localhost:5000/api/admin/register", {
+      await axios.post(`${API_URL}/api/admin/register`, {
         email: registerEmail,
         password: registerPassword,
       });

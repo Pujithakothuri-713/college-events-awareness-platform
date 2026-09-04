@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import Filters from "../Components/Filters";
+import API_URL from "../config";
 
 function EventList() {
   const [events, setEvents] = useState([]);
@@ -11,9 +12,9 @@ function EventList() {
 
   const [domains, setDomains] = useState([]);
 
-  const fetchEvents = async () => {
+  const fetchEvents = useCallback(async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/events", {
+      const response = await axios.get(`${API_URL}/api/events`, {
         params: {
           ...(city && { city }),
           ...(date && { date }),
@@ -25,24 +26,24 @@ function EventList() {
     } catch (error) {
       console.error("Error fetching events", error);
     }
-  };
+  }, [city, date, domain]);
 
-  const fetchDomains = async () => {
+  const fetchDomains = useCallback(async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/events/domains"
+        `${API_URL}/api/events/domains`
       );
 
       setDomains(response.data);
     } catch (error) {
       console.error("Error fetching domains", error);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchEvents();
     fetchDomains();
-  }, []);
+  }, [fetchEvents, fetchDomains]);
 
   return (
     <div className="container">

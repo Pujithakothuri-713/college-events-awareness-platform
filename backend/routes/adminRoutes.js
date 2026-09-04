@@ -10,7 +10,18 @@ const Admin = require("../models/Admin");
  */
 router.post("/register", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, adminKey } = req.body;
+
+    // optional admin key security check if configured in env
+    if (process.env.ADMIN_REGISTRATION_KEY) {
+      const headerKey = req.headers["x-admin-key"];
+      if (
+        adminKey !== process.env.ADMIN_REGISTRATION_KEY &&
+        headerKey !== process.env.ADMIN_REGISTRATION_KEY
+      ) {
+        return res.status(403).json({ message: "Forbidden: Invalid admin registration key" });
+      }
+    }
 
     // check if admin already exists
     const existingAdmin = await Admin.findOne({ email });

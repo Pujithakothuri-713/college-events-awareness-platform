@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import API_URL from "../config";
 
 function AdminDashboard() {
   const [events, setEvents] = useState([]);
@@ -29,7 +30,7 @@ function AdminDashboard() {
   }, [token, navigate]);
 
   const fetchEvents = async () => {
-    const res = await axios.get("http://localhost:5000/api/events");
+    const res = await axios.get(`${API_URL}/api/events`);
     setEvents(res.data);
   };
 
@@ -56,7 +57,7 @@ function AdminDashboard() {
 
     if (editingId) {
       await axios.put(
-        `http://localhost:5000/api/events/${editingId}`,
+        `${API_URL}/api/events/${editingId}`,
         payload,
         config
       );
@@ -64,7 +65,7 @@ function AdminDashboard() {
       setEditingId(null);
     } else {
       await axios.post(
-        "http://localhost:5000/api/events",
+        `${API_URL}/api/events`,
         payload,
         config
       );
@@ -98,7 +99,7 @@ function AdminDashboard() {
   };
 
   const handleDelete = async (id) => {
-    await axios.delete(`http://localhost:5000/api/events/${id}`, {
+    await axios.delete(`${API_URL}/api/events/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

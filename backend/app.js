@@ -9,7 +9,12 @@ const adminRoutes = require("./routes/adminRoutes");
 const app = express();
 
 // global middlewares
-app.use(cors());
+const corsOptions = {
+  origin: process.env.CLIENT_URL || "*",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "x-admin-key"],
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // routes
